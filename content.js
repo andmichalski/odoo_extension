@@ -1,1 +1,1 @@
-alert("Here will be filling attendances");
+console.log("We fill attendances!!!");
