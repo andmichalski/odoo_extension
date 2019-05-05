@@ -5,8 +5,15 @@
     <script src="attendance.js"></script>
   </head>
   <body>
-    <h1>Your attendances will be filled!</h1>
-    <input>Fill your emploee ID</input>
+    <h3>Your attendances will be filled!</h3>
+    <label for="startDate">Start date:</label>
+    <input type="date" id="startDate" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+    <label for="endDate">End date:</label>
+    <input type="date" id="endDate" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+    <label for="employee">Employee:</label>
+    <input type="text" id="employee">
+    <br>
     <button id="sendAttendance">Fill attendance</button>
+
   </body>
 </html>

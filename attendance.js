@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("sendAttendance").addEventListener("click", sendAttendance);
   });
-  
+
 function sendAttendance() {
     fetch("https://odoo.servocode.com/web/dataset/call_kw/hr.attendance/create", 
     {
@@ -20,4 +20,5 @@ function sendAttendance() {
     "mode":"cors"
     });
     console.log("Attendance is filled!!!");
+
 }
