@@ -15,10 +15,12 @@
 		"persistent": false
 	},
 	"permissions": [
+		"https://odoo.servocode.com/*",
+		"activeTab",
+		"background",
 		"cookies"
 	],
 	"browser_action": {
-		"default_icon": "icon.png"
-		// "default_popup": "popup.html"
+		"default_popup": "popup.html"
 	}
 }

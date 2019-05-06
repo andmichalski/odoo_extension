@@ -1,5 +1,16 @@
+chrome.runtime.onConnect.addListener(function(port) {
+  port.onMessage.addListener(function(msg){
+    console.log(msg);
+    port.sendMessage({cookie: "somenumbers of cookie"})
+  })
+})
+
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("sendAttendance").addEventListener("click", sendAttendance);
+    chrome.runtime.getBackgroundPage(function(bg){
+        var cookie = bg.cookie;
+        alert(cookie);
+    }) ;
+    // document.getElementById("sendAttendance").addEventListener("click", sendAttendance);
   });
 
 function sendAttendance() {
