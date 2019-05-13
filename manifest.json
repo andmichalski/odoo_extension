@@ -7,7 +7,10 @@
 	    "matches": [
 				"https://odoo.servocode.com/*"
 	    ],
-	    "js": ["content.js"]
+	    "js": [
+				"content.js",
+				"vendors/jquery-3.4.1.min.js"
+			]
 	  }
 	],
 	"background": {
@@ -18,9 +21,15 @@
 		"https://odoo.servocode.com/*",
 		"activeTab",
 		"background",
-		"cookies"
+		"cookies",
+		"tabs",
+		"<all_urls>",
+		"storage"
 	],
 	"browser_action": {
 		"default_popup": "popup.html"
-	}
+	},
+	"web_accessible_resources": [
+		"data/data.json"
+	]
 }

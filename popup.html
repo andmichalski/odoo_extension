@@ -2,18 +2,19 @@
 <html>
   <head>
     <title>Odoo attendances</title>
-    <script src="attendance.js"></script>
+    <script src="vendors/jquery-3.4.1.min.js"></script>
+    <script src="popup.js"></script>
   </head>
   <body>
     <h3>Your attendances will be filled!</h3>
+    <input type="time" id="checkIn" value="09:00:00">
+    <input type="time" id="checkOut" value="16:20:00">
+    <input type="text" id="employeeId" value="2018-07-22">
     <label for="startDate">Start date:</label>
     <input type="date" id="startDate" value="2018-07-22" min="2018-01-01" max="2018-12-31">
     <label for="endDate">End date:</label>
     <input type="date" id="endDate" value="2018-07-22" min="2018-01-01" max="2018-12-31">
-    <label for="employee">Employee:</label>
-    <input type="text" id="employee">
-    <br>
-    <button id="sendAttendance">Fill attendance</button>
+    <button id="sendAttendance">Fill attendance </button>
 
   </body>
 </html>

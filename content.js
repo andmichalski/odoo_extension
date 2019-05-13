@@ -1,11 +1,4 @@
-// alert("Hello from extension which fill attendances!!!");
 var port = chrome.runtime.connect({name: "odoo_extension"});
-
-port.sendMessage({cookie: "need"});
-
-port.onMessage.addListener(function(msg) {
-    alert(msg.cookie);
-})
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
@@ -17,3 +10,11 @@ chrome.runtime.onMessage.addListener(
       }
     }
   );
+
+
+function setStorage(){
+  chrome.storage.sync.set({checkIn: "09:00:00", checkOut: "17:20:00", empolyeeId: "376"}, function() {
+    console.log('Value is set to ' + empolyeeId);
+    alert("Storage is set!!");
+  });
+};
