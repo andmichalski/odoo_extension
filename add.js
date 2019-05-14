@@ -1,7 +1,20 @@
-alert("We fill check in")
-var checkIn = document.getElementById("checkIn").value
-console.log(checkIn);
-alert(checkIn);
+document.addEventListener('DOMContentLoaded', documentEvents  , false);
+
+function myAction(input) { 
+    console.log("input value is : " + input.value);
+    alert("The entered data is : " + input.value);
+    // do processing with data
+    // you need to right click the extension icon and choose "inspect popup"
+    // to view the messages appearing on the console.
+}
+
+function documentEvents() {    
+//   document.getElementById('ok_btn').addEventListener('click', 
+    // function() { myAction(document.getElementById('checkIn'));
+    myAction(document.getElementById('checkIn'));
+  };
+
+  // you can add listeners for other objects ( like other buttons ) here 
 // const url = chrome.runtime.getURL('data/data.json');
 
 // fetch(url)

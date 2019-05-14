@@ -1,3 +1,5 @@
+setForm();
+
 var port = chrome.runtime.connect({name: "odoo_extension"});
 
 chrome.runtime.onMessage.addListener(
