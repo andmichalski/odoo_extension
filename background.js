@@ -1,6 +1,6 @@
-var cookie = chrome.cookies.get({"url": "https://odoo.servocode.com", "name": "session_id"}, function(cookie) {
-  return cookie.value;
-})
+// var cookie = chrome.cookies.get({"url": "https://odoo.servocode.com", "name": "session_id"}, function(cookie) {
+//   return cookie.value;
+// })
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     // Send a message to the active tab

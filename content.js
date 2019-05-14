@@ -1,4 +1,4 @@
-setForm();
+setStorage();
 
 var port = chrome.runtime.connect({name: "odoo_extension"});
 
@@ -13,10 +13,9 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
-
+// for debuging
 function setStorage(){
-  chrome.storage.sync.set({checkIn: "09:00:00", checkOut: "17:20:00", empolyeeId: "376"}, function() {
-    console.log('Value is set to ' + empolyeeId);
-    alert("Storage is set!!");
+  chrome.storage.local.set({checkIn: "09:00:00", checkOut: "17:20:00", employeeId: "376"}, function() {
+  alert("Storage is set")
   });
 };

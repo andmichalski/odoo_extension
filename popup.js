@@ -31,17 +31,21 @@
 //     });
 // });
 
-$(function() {
-  chrome.storage.sync.get(['key'], function(result) {
-    console.log('Value currently is ' + result.key);
-  });
-  var checkIn = document.getElementById("checkIn");
-  checkIn.value = "10:00:00"
 
-  var checkOut = document.getElementById("checkOut");
-  checkOut.value = "17:20:00"
-  var employeeId = document.getElementById("employeeId");
-  employeeId.value = "376"
+$(function() {
+  chrome.storage.local.get(['checkIn'], function(result) {
+    var checkInInput = document.getElementById("checkIn");
+    checkInInput.value = result.checkIn;
+  });
+
+  chrome.storage.local.get(['checkOut'], function(result) {
+    var checkOutInput = document.getElementById("checkOut");
+    checkOutInput.value = result.checkOut;
+  });
+  chrome.storage.local.get(['employeeId'], function(result) {
+    var employeeIdInput = document.getElementById("employeeId");
+    employeeIdInput.value = result.employeeId;
+  });
 })
 
 function injectTheScript() {
