@@ -1,5 +1,3 @@
-setStorage();
-
 var port = chrome.runtime.connect({name: "odoo_extension"});
 
 chrome.runtime.onMessage.addListener(
@@ -12,10 +10,3 @@ chrome.runtime.onMessage.addListener(
       }
     }
   );
-
-// for debuging
-function setStorage(){
-  chrome.storage.local.set({checkIn: "09:00:00", checkOut: "17:20:00", employeeId: "376"}, function() {
-  alert("Storage is set")
-  });
-};

@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#progressbar {
+    float:left: 50;
+    width: 0;
+    height: 30px;
+    background-color:#000000;
+    border: 0;
+    opacity: 1;
+    zIndex: 99999;
+}

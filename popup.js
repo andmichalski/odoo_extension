@@ -1,54 +1,52 @@
-// const fs = require('fs');
-
-// var dataLogin = fs.readFile('./data.json', 'utf8', (err, fileContents) => {
-//   if (err) {
-//     console.error(err)
-//     return;
-//   }
-//   try {
-//     const data = JSON.parse(fileContents)
-//     alert(data);
-//     console.log(data);
-//   } catch(err) {
-//     console.error(err);
-//   }
-// })
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     var link = document.getElementById('sendAttendance');
-//     link.addEventListener('click', function() {
-//       alert("Send attendance is started");
-//       var startDate = $("#startDate").val();
-//       var endDate = $("#endDate").val();
-//       var empolyeeID = $("#employeeId").val();
-//       let dataLogin = require('./data.json');
-//       $.getJSON(
-//         "./data.json",
-//         function(returnedData){
-//           alert(returnedData);
-//         }
-//       )
-//     });
-// });
-
+var checkInStorage, checkOutStorage, empolyeeIdStorage = ""
+var progressbar = {};
 
 $(function() {
   chrome.storage.local.get(['checkIn'], function(result) {
     var checkInInput = document.getElementById("checkIn");
-    checkInInput.value = result.checkIn;
+    checkInStorage = result.checkIn
+    checkInInput.value = checkInStorage;
   });
 
   chrome.storage.local.get(['checkOut'], function(result) {
     var checkOutInput = document.getElementById("checkOut");
-    checkOutInput.value = result.checkOut;
+    checkOutStorage = result.checkOut
+    checkOutInput.value = checkOutStorage;
   });
   chrome.storage.local.get(['employeeId'], function(result) {
     var employeeIdInput = document.getElementById("employeeId");
-    employeeIdInput.value = result.employeeId;
+    empolyeeIdStorage = result.employeeId
+    employeeIdInput.value = empolyeeIdStorage;
   });
+
+  progressbar = {
+
+    progress: 0,
+    progress_max: 0,
+    $progress_bar: $('#progressbar'),
+
+    set: function (num) {
+        if (this.progress_max && num) {
+            this.progress = num / this.progress_max * 100;
+            this.$progress_bar.width(String(this.progress) + '%');
+        }
+    },
+
+    fn_wrap: function (num) {
+        setTimeout(function() {
+            this.set(num);
+        }, 0);
+    }
+
+    };
+
 })
 
-function injectTheScript() {
+window.onload=function(){
+  document.getElementById('sendAttendance').addEventListener('click', fillAttendance);
+}
+
+function fillAttendance() {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.executeScript(tabs[0].id, {file: "add.js"});
   });
@@ -57,9 +55,13 @@ function injectTheScript() {
   var employeeId = document.getElementById("employeeId").value;
   var startDate = new Date(document.getElementById("startDate").value);
   var endDate = new Date(document.getElementById("endDate").value);
+  var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+  progressbar.progress_max = diffDays;
+
+  var i = 0;
 
   for (var date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-
 
     if (date.getDay() === 0 || date.getDay() === 6) {
 
@@ -80,12 +82,10 @@ function injectTheScript() {
       var dayOff = "false";
       addAttendance(checkIn, checkOut, employeeId, fillDate, dayOff);
     }
-
-
-
  }
-
-
+ setStorage(checkIn, checkOut, employeeId);
+ i++;
+ progressbar.set(i);
 }
 
 function addAttendance(checkIn, checkOut, employeeId, date, dayOff) {
@@ -109,9 +109,35 @@ function addAttendance(checkIn, checkOut, employeeId, date, dayOff) {
 
 }
 
-window.onload=function(){
-  // setForm();
-  document.getElementById('sendAttendance').addEventListener('click', injectTheScript);
+function setStorage(checkIn, checkOut, employeeId) {
+  if (checkIn != checkInStorage) {
+    chrome.storage.local.set({checkIn: checkIn}, function() {
+      console.log('Check In value is set to ' + checkIn);
+    });
+  }
+  if (checkOut != checkOutStorage) {
+    chrome.storage.local.set({checkOut: checkOut}, function() {
+      console.log('Check Out value is set to ' + checkOut);
+    });
+  }
+  if (employeeId != empolyeeIdStorage) {
+    chrome.storage.local.set({employeeId: employeeId}, function() {
+      console.log('Empolyee Id value is set to ' + employeeId);
+    });
+  }
+  location.reload();
 }
 
-    console.log("Attendance is filled!!!");
+function move() {
+  var elem = document.getElementById("progressBar"); 
+  var width = 1;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+    } else {
+      width++; 
+      elem.style.width = width + '%'; 
+    }
+  }
+}

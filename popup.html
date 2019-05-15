@@ -4,9 +4,12 @@
     <title>Odoo attendances</title>
     <script src="vendors/jquery-3.4.1.min.js"></script>
     <script src="popup.js"></script>
+    <link rel="stylesheet" type="text/css" href="popup.css">
   </head>
   <body>
-    <h3>Your attendances will be filled!</h3>
+    <h3>Fill your attendances</h3>
+    <div id='progressbar' >
+    </div>
     <label for="checkIn">Check In:</label>
     <input type="time" id="checkIn">
     <label for="checkOut">Check Out:</label>
