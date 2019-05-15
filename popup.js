@@ -50,8 +50,12 @@ function fillAttendance() {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.executeScript(tabs[0].id, {file: "add.js"});
   });
-  var checkIn = document.getElementById("checkIn").value;
-  var checkOut = document.getElementById("checkOut").value;
+  var checkInData = document.getElementById("checkIn").value;
+  var checkIn = String(Number(checkInData.split(":")[0]) - 2) + checkInData.substr(2)
+
+  var checkOutData = document.getElementById("checkOut").value;
+  var checkOut = String(Number(checkOutData.split(":")[0]) - 2) + checkOutData.substr(2)
+
   var employeeId = document.getElementById("employeeId").value;
   var startDate = new Date(document.getElementById("startDate").value);
   var endDate = new Date(document.getElementById("endDate").value);
@@ -83,7 +87,7 @@ function fillAttendance() {
       addAttendance(checkIn, checkOut, employeeId, fillDate, dayOff);
     }
  }
- setStorage(checkIn, checkOut, employeeId);
+ setStorage(checkInData, checkOutData, employeeId);
  i++;
  progressbar.set(i);
 }
