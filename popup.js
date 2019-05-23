@@ -1,4 +1,4 @@
-var checkInStorage, checkOutStorage, empolyeeIdStorage = ""
+var checkInStorage, checkOutStorage, empolyeeIdStorage, startDate,Storage, endDateStorage = ""
 var progressbar = {};
 
 $(function() {
@@ -17,6 +17,18 @@ $(function() {
     var employeeIdInput = document.getElementById("employeeId");
     empolyeeIdStorage = result.employeeId
     employeeIdInput.value = empolyeeIdStorage;
+  });
+
+  chrome.storage.local.get(['startDate'], function(result) {
+    var startDateInput = document.getElementById("startDate");
+    startDateStorage = result.startDate
+    startDateInput.value = startDateStorage;
+  });
+
+  chrome.storage.local.get(['endDate'], function(result) {
+    var endDateInput = document.getElementById("endDate");
+    endDateStorage = result.endDate
+    endDateInput.value = endDateStorage;
   });
 
   progressbar = {
@@ -57,8 +69,10 @@ function fillAttendance() {
   var checkOut = String(Number(checkOutData.split(":")[0]) - 2) + checkOutData.substr(2)
 
   var employeeId = document.getElementById("employeeId").value;
-  var startDate = new Date(document.getElementById("startDate").value);
-  var endDate = new Date(document.getElementById("endDate").value);
+  var startDateInput = document.getElementById("startDate").value;
+  var startDate = new Date(startDateInput);
+  var endDateInput = document.getElementById("endDate").value;
+  var endDate = new Date(endDateInput);
   var diffDays = parseInt((endDate - startDate) / (1000 * 60 * 60 * 24));
 
   progressbar.progress_max = diffDays;
@@ -70,6 +84,7 @@ function fillAttendance() {
     if (date.getDay() === 0 || date.getDay() === 6) {
 
       var day = ("0" + (date.getDate() - 1)).slice(-2)   
+      console.log("Day is " + day)
       var month = ("0" + (date.getMonth() + 1)).slice(-2)  
       var fillDate = month + "-" + day + "-" + date.getFullYear()
 
@@ -87,7 +102,7 @@ function fillAttendance() {
       addAttendance(checkIn, checkOut, employeeId, fillDate, dayOff);
     }
  }
- setStorage(checkInData, checkOutData, employeeId);
+ setStorage(checkInData, checkOutData, employeeId, startDateInput, endDateInput);
  i++;
  progressbar.set(i);
 }
@@ -113,7 +128,7 @@ function addAttendance(checkIn, checkOut, employeeId, date, dayOff) {
 
 }
 
-function setStorage(checkIn, checkOut, employeeId) {
+function setStorage(checkIn, checkOut, employeeId, startDate, endDate) {
   if (checkIn != checkInStorage) {
     chrome.storage.local.set({checkIn: checkIn}, function() {
       console.log('Check In value is set to ' + checkIn);
@@ -129,7 +144,17 @@ function setStorage(checkIn, checkOut, employeeId) {
       console.log('Empolyee Id value is set to ' + employeeId);
     });
   }
-  location.reload();
+  if (startDate != startDateStorage) {
+    chrome.storage.local.set({startDate: startDate}, function() {
+      console.log('Start Date value is set to ' + startDate);
+    });
+  }
+  if (endDate != endDateStorage) {
+    chrome.storage.local.set({endDate: endDate}, function() {
+      console.log('End Date value is set to ' + endDate);
+    });
+  }
+  // location.reload();
 }
 
 function move() {
